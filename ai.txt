@@ -1,0 +1,112 @@
+In your ai.txt file, answer these questions:
+1. Did you attempt to make your computer player very smart -- i.e., do something more clever than just pick a random legal move?
+Yes, I tried to make my ai smart. I use a scoring system to help it determine where to drop its stone.
+
+
+2.If so, were you able to accomplish this? Is your computer player as smart as you would like?
+Yes, I have make it form its own logic to choose the best position. I think it is sometimes the same smart
+as me, but may not consider so many steps in ahead as I do.
+
+
+3. How did you determine which piece to play next? Tell us about your "pick next move" algorithm
+I use thre functions to control the ai, making it choose the best position to drop stone.
+First, I have a score system. This is designed to evaluation the condition of the board.
+I devide the situations as follows:
+# notation: e stands for empty, o stands for one color, i is the other color
+
+1). Five: 100 score
+Five same color stones in a row: ooooo
+
+2). Live Four: 90 score
+Four same color stones in a row, both end empty: eooooe
+
+3). Double Half Four: 90 score: 2 * (eooooi or iooooe)
+Two * (Four same color stones in a row, with a rival stone at one end)
+
+4). Half Four + Live Three: 80 score: 1 * (eooooi or iooooe) + 1 * (eoooe or eoeooe or eooeoe)
+One * (Four same color stones in a row, with a rival stone at one end)
+Plus One * (Three same color stones in a row, both end empty)
+
+5). Half Four: 70 score: 1 * (eooooi or iooooe)
+One * (Four same color stones in a row, with a rival stone at one end)
+
+6). Double Live Three: 60 score: 2 * (eoooe or eoeooe or eooeoe)
+Two * (Three same color stones in a row, both end empty)
+
+7). Single Live Three: 50 score: 1 * (eoooe or eoeooe or eooeoe)
+One * (Three same color stones in a row, both end empty)
+
+8). Sleep Three: 30 score: 
+Any one of ioeooe, iooeoe, ioooee, eooeoi, eoeooi, eeoooi
+
+9). Live Two: 20 score
+Any one of eoeoe, eeooe, eooee
+
+10). Sleep Two: 10 score
+both end cannot be the same, 0,1 or 0,2
+
+11). Others: 0 score
+
+For each situation, if the the same color is AI (White), we give the positive score.
+If the same color is Human (Black), we give (-1) * the score
+In this way, ai knows that it needs to avoid good situation for humans (i.e the lowest negative score)
+and try its best to gain good situation for itself (i.e. the highest positive score)
+
+Second, I build a accelerate function (I call it this name) and a check_neighbor function to reduce the
+position ai needs to check and save the running time.
+In the check_neighbor function, I check whether there is a stone within a given radius.
+Then in the accelerate function, I record all the position that has a stone within a given radius and
+return the list.
+In this way, the computer only needs to search for the area near the stones that have been dropped and
+don't need to go through all the empty position.
+
+Third, I build a best_choice function. This is where the ai make a decision.
+The AI first make a copy of the current board, in order not mess it up during the following assumption.
+And here goes what I call assumption process. The AI loops through all the positions stored in the 
+accelerate function's list. If it is empty, the AI drop a white stone on it. And check the score of the 
+board with this new stone. All assumption's scores are collected and ranked. The AI choose the assumption
+with the highest score, return the position of the new stone.
+
+Then the AI activates the drop_stone function in GameController, drop the stone at that position.
+
+
+4. How often did your computer program beat you, or your friends, or whoever tested it out for you?
+Currently, it beats me at around 60% trials. I have to say that if I fully concentrate and condisier
+every step possible, I can still win it. But, as it often happens, it beats me suddenly. I think it is
+better than an entry-to-middle level player.
+
+
+5. How easy would it be to make the difficulty level adjustable?
+The way to adjust it now, I think, is to take away some lower-level score patterns, like those
+sleep two, live two, sleep three, etc. This will enable human players to be able to prepare for some 
+later stage pattern (i.e the live three, half four, etc.) without being stopped at the beginning. But 
+the exact level of ai difficulty may not be easily evaluated.
+
+
+6. How would you improve it in the future?
+The major plan in the future is to make this ai think about more steps.
+Currently it only consider one step, in this way, it is not so good at defending.
+I have read about two methods called MinMax and Alpha-beta pruning method and think they are quite good.
+In this way, the steps are divided into two kinds:
+
+AI's step is called the Max level, the AI needs to get the situation with best score for AI
+Human's step is called the min level, the Human needs to get the situation with the best score for Human
+
+AI start an outer loop for all the positions, then for each position, it loops and assumes that after AI
+drops stone at this place, Human drops at every other empty position, and evaluate the score of each 
+situation. Since the Human will choose the best for itself, the score of these inner loop situation will be
+determined by the one that generates the worst score for AI (i.e. best for human)
+
+Then AI go through each move at the outer loop, compare the score of inner loop, choose the one that is 
+relatively best for AI and worst for Human. (Until now, it is MinMax method)
+
+However, the MinMax method will result in a disaster of too many situations when we have three or more steps 
+to plan ahead. Thus, the AI will stop the inner loop in some situation. When AI finished calculating every
+score for the first inner loop, it records the worst one for AI as the score of this inner loop. Then it 
+goes on the second inner loop, if during the inner loop, there is a score that is lower than the score of 
+former inner loop, the rest of this inner loop will be abandoned, which is called "pruning". In this way, 
+the total number of calculation will be greatly reduced. Thus make it possible to think more steps ahead.
+
+Further more, I hope to make the AI can learn from former games. I think this is currently beyond my reach 
+but I guess it should contains some Machine Learing materials, the AI can learn from the style of Human 
+players, grow as human players, just like the AlphaGo.
