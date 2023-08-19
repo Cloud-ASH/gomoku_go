@@ -1,16 +1,16 @@
-1) What data structures you’ll need (lists, dictionaries, etc.)
+#1) What data structures you’ll need (lists, dictionaries, etc.)
 - List of lists: represents the board, records stone locations
 
-What classes you’ll define
+#What classes you’ll define
 - GameController
 - AI
 - Gameboard
 - Stone
 
 
-2) What functions you’ll need (methods within classes, 
+#2) What functions you’ll need (methods within classes, 
 or other functions that exist outside of any class)
-- GameController
+##- GameController
     · drop_stone
     · game_result
     · get_distance
@@ -18,7 +18,7 @@ or other functions that exist outside of any class)
     · choose_nearest
     · color_choose
     · end_text
-- AI
+##- AI
     · update
     · _choose_coord
     · _four_stones
@@ -26,15 +26,15 @@ or other functions that exist outside of any class)
     · _two_stones
     · _one_stone
     · _focus_on_self
-- Gameboard
-- Stone
+##- Gameboard
+##- Stone
     · display
     · x
     · y
 
 
-3) A short description of each class and function/method
-- GameController: controls the overall flow of the game at top level
+#3) A short description of each class and function/method
+##- GameController: controls the overall flow of the game at top level
     · drop_stone: place a stone on board
     · game_result: access the status of the game, whether it's continuing to play
         a draw, human as the winner, or AI as the winner
@@ -45,7 +45,7 @@ or other functions that exist outside of any class)
         display the end text
     · color_choose: choose the color of the stone for each step
     · end_text: display the end text when the game is over
-- AI: represents the AI and contains the logic to play and win
+##- AI: represents the AI and contains the logic to play and win
     · update: choose the next position to place the stone and do it
     · _choose_coord: score coords and return top scored coord
     · _four_stones: check if there is any four stones in line placed by human 
@@ -58,18 +58,18 @@ or other functions that exist outside of any class)
     · _focus_on_self: if AI has already checked all possible cases that 
         the human could outperform it, it will then focus on itself and seek for 
         the most advantageous choice.
-- Gameboard: generates the chess board as the list of lists
-- Stone: visualizes stones with certain characteristics
+##- Gameboard: generates the chess board as the list of lists
+##- Stone: visualizes stones with certain characteristics
     · display: display the stone given who the player is and what the color of stone is
     · x: getter and setter for x value
     · y: getter and setter for y value
 
-A bullet-pointed pseudocode of your driver: 
+#A bullet-pointed pseudocode of your driver: 
 Tell us about the flow of control, and think about the following cases:
     When the user makes a move
     When it’s the computer’s turn
     When game over status is assessed
-- Flow of control:
+##- Flow of control:
     Part 1. HW11:
     Currently, we only have two human player, Black and White.
     The flow of control is as follows:
@@ -92,7 +92,7 @@ Tell us about the flow of control, and think about the following cases:
     works, print("It's an end")
 
 
-    Part 2. HW12:
+#Part 2. HW12:
     Full version:
     1. Human mouse pressed, then the mousePressed() in pyde file works and the folloing 
     step is the same as above.
